@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Breathing';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Breathing'),
+       url('/fonts/Breathing.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/97073/Breathing.woff') format('woff');
+  font-display: swap;
+}
+
+.font-breathing {
+  font-family: 'Breathing', cursive, 'Segoe Script', 'Brush Script MT', sans-serif;
+}
