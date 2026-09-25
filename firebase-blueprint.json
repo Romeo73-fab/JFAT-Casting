@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "Candidate": {
+      "title": "Voice Candidate",
+      "description": "Candidat inscrit au casting de voix JFAT Casting",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "registrationNumber": { "type": "string" },
+        "submittedAt": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["en_attente", "convoque", "retenu", "non_retenu"]
+        },
+        "juryRating": { "type": "number" },
+        "juryNotes": { "type": "string" },
+        "lastName": { "type": "string" },
+        "firstName": { "type": "string" },
+        "gender": { "type": "string" },
+        "age": { "type": "number" },
+        "email": { "type": "string" },
+        "phoneCountryCode": { "type": "string" },
+        "phone": { "type": "string" },
+        "cityAddress": { "type": "string" },
+        "churchCommunity": { "type": "string" },
+        "pastorName": { "type": "string" },
+        "pastorPhone": { "type": "string" },
+        "vocalRange": { "type": "string" },
+        "choirMember": { "type": "string" },
+        "experienceLevel": { "type": "string" },
+        "yearsExperience": { "type": "number" }
+      },
+      "required": [
+        "id",
+        "registrationNumber",
+        "lastName",
+        "firstName",
+        "phone",
+        "vocalRange"
+      ]
+    }
+  },
+  "firestore": {
+    "/candidates/{candidateId}": {
+      "schema": "Candidate",
+      "description": "Collection de toutes les candidatures pour le casting vocal"
+    }
+  }
+}

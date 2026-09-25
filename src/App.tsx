@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { VoiceCandidate } from './types';
-import { getStoredCandidates, fetchCandidatesFromServer } from './utils/storage';
+import { getStoredCandidates, fetchCandidatesFromServer, subscribeToCandidatesRealtime } from './utils/storage';
 import { Header } from './components/Header';
 import { AuditionForm } from './components/AuditionForm';
 import { SubmissionSuccess } from './components/SubmissionSuccess';
@@ -34,12 +34,20 @@ export default function App() {
     setCandidates(getStoredCandidates());
     syncCandidates();
 
-    // Live sync polling every 3 seconds so all jurors see changes & registrations in real time
+    // Instant real-time listener from Firebase Firestore across all devices
+    const unsubscribeFirestore = subscribeToCandidatesRealtime((liveList) => {
+      setCandidates(liveList);
+    });
+
+    // Backup polling every 5 seconds
     const interval = setInterval(() => {
       syncCandidates();
-    }, 3000);
+    }, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      unsubscribeFirestore();
+      clearInterval(interval);
+    };
   }, [isAdminAuthenticated, syncCandidates]);
 
   const refreshCandidates = () => {

@@ -1,5 +1,14 @@
 import { VoiceCandidate, CandidateFormValues } from '../types';
 import { encryptData, decryptData } from './crypto';
+import db from '../firebase';
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  deleteDoc,
+  onSnapshot
+} from 'firebase/firestore';
 
 const STORAGE_KEY = 'voice_casting_candidates_v1';
 const DRAFT_KEY = 'voice_casting_draft_v1';
@@ -110,6 +119,31 @@ export function getStoredCandidates(): VoiceCandidate[] {
 }
 
 export async function fetchCandidatesFromServer(): Promise<VoiceCandidate[]> {
+  // 1. Try Firebase Firestore first (centralized cloud database)
+  try {
+    const colRef = collection(db, 'candidates');
+    const snapshot = await getDocs(colRef);
+    if (!snapshot.empty) {
+      const items: VoiceCandidate[] = [];
+      snapshot.forEach((docSnap) => {
+        items.push(docSnap.data() as VoiceCandidate);
+      });
+      items.sort((a, b) => new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime());
+      localStorage.setItem(STORAGE_KEY, encryptData(items));
+      return items;
+    } else {
+      // First run: seed Firestore with demo candidates so jury has test data immediately
+      const currentLocal = getStoredCandidates();
+      for (const c of currentLocal) {
+        setDoc(doc(db, 'candidates', c.id), c, { merge: true }).catch(() => {});
+      }
+      return currentLocal;
+    }
+  } catch (err) {
+    console.warn('Firestore getDocs notice:', err);
+  }
+
+  // 2. Fallback to API if Firestore encounters network issue
   try {
     const res = await fetch('/api/candidates');
     if (res.ok) {
@@ -125,7 +159,35 @@ export async function fetchCandidatesFromServer(): Promise<VoiceCandidate[]> {
   } catch (err) {
     console.warn('Erreur synchronisation serveur candidates:', err);
   }
+
   return getStoredCandidates();
+}
+
+export function subscribeToCandidatesRealtime(callback: (candidates: VoiceCandidate[]) => void): () => void {
+  try {
+    const colRef = collection(db, 'candidates');
+    const unsubscribe = onSnapshot(
+      colRef,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const items: VoiceCandidate[] = [];
+          snapshot.forEach((docSnap) => {
+            items.push(docSnap.data() as VoiceCandidate);
+          });
+          items.sort((a, b) => new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime());
+          localStorage.setItem(STORAGE_KEY, encryptData(items));
+          callback(items);
+        }
+      },
+      (err) => {
+        console.warn('Firestore onSnapshot listener notice:', err);
+      }
+    );
+    return unsubscribe;
+  } catch (err) {
+    console.warn('Error setting up onSnapshot listener:', err);
+    return () => {};
+  }
 }
 
 export function saveCandidate(candidate: VoiceCandidate): void {
@@ -138,7 +200,17 @@ export function saveCandidate(candidate: VoiceCandidate): void {
   }
   localStorage.setItem(STORAGE_KEY, encryptData(list));
 
-  // Sync with backend API
+  // 1. Sync with Firebase Firestore (permanent cloud database)
+  try {
+    const candidateRef = doc(db, 'candidates', candidate.id);
+    setDoc(candidateRef, candidate, { merge: true }).catch((err) => {
+      console.warn('Firestore setDoc notice:', err);
+    });
+  } catch (err) {
+    console.warn('Firestore write candidate error:', err);
+  }
+
+  // 2. Sync with backend API
   fetch('/api/candidates', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -157,7 +229,17 @@ export function updateCandidateJury(
   Object.assign(candidate, updates);
   localStorage.setItem(STORAGE_KEY, encryptData(list));
 
-  // Sync with backend API
+  // 1. Sync with Firebase Firestore
+  try {
+    const candidateRef = doc(db, 'candidates', id);
+    setDoc(candidateRef, updates, { merge: true }).catch((err) => {
+      console.warn('Firestore updateDoc notice:', err);
+    });
+  } catch (err) {
+    console.warn('Firestore update candidate error:', err);
+  }
+
+  // 2. Sync with backend API
   fetch(`/api/candidates/${encodeURIComponent(id)}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
@@ -171,7 +253,17 @@ export function deleteCandidate(id: string): void {
   const list = getStoredCandidates().filter((c) => c.id !== id);
   localStorage.setItem(STORAGE_KEY, encryptData(list));
 
-  // Sync with backend API
+  // 1. Sync with Firebase Firestore
+  try {
+    const candidateRef = doc(db, 'candidates', id);
+    deleteDoc(candidateRef).catch((err) => {
+      console.warn('Firestore deleteDoc notice:', err);
+    });
+  } catch (err) {
+    console.warn('Firestore delete candidate error:', err);
+  }
+
+  // 2. Sync with backend API
   fetch(`/api/candidates/${encodeURIComponent(id)}`, {
     method: 'DELETE',
   }).catch((err) => console.warn('Could not delete candidate on server:', err));

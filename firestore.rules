@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidCandidate(data) {
+      return data.id is string
+        && data.registrationNumber is string
+        && data.lastName is string
+        && data.firstName is string
+        && data.phone is string
+        && data.vocalRange is string;
+    }
+
+    match /candidates/{candidateId} {
+      // Anyone can submit a new candidate application
+      allow create: if isValidCandidate(request.resource.data);
+
+      // Read candidates (public list or jury)
+      allow read: if true;
+
+      // Jury can update status, ratings, notes, or info
+      allow update: if isValidCandidate(request.resource.data);
+
+      // Deletion of candidate
+      allow delete: if true;
+    }
+
+    match /test/connection {
+      allow read, write: if true;
+    }
+  }
+}
