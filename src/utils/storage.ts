@@ -113,10 +113,13 @@ export async function fetchCandidatesFromServer(): Promise<VoiceCandidate[]> {
   try {
     const res = await fetch('/api/candidates');
     if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        localStorage.setItem(STORAGE_KEY, encryptData(data));
-        return data;
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          localStorage.setItem(STORAGE_KEY, encryptData(data));
+          return data;
+        }
       }
     }
   } catch (err) {
