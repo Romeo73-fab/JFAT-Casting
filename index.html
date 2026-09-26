@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/logo-soiree-des-restaures-08.png" />
+    <link rel="icon" type="image/png" href="/llo.png" />
+    <link rel="preload" as="image" href="/llo.png" fetchpriority="high" type="image/png" />
+    <link rel="preload" as="image" href="/bg2.png" fetchpriority="high" type="image/png" />
     <title>JFAT Casting - Formulaire Officiel d'Inscription</title>
     <meta name="description" content="Formulaire officiel d'inscription pour le casting de voix JFAT Casting." />
     <meta property="og:title" content="JFAT Casting - Formulaire Officiel d'Inscription" />
@@ -16,6 +18,7 @@
     <link href="https://fonts.cdnfonts.com/css/breathing" rel="stylesheet">
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-indigo-500 selection:text-white">
+    <div id="bg-fixed-layer" aria-hidden="true"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

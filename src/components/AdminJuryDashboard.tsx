@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Users, 
   Search, 
@@ -13,11 +13,15 @@ import {
   MapPin,
   MessageCircle,
   LogOut,
-  Sparkles
+  Sparkles,
+  Eye,
+  EyeOff,
+  ShieldCheck
 } from 'lucide-react';
 import { VoiceCandidate, CandidateStatus } from '../types';
 import { updateCandidateJury, deleteCandidate } from '../utils/storage';
 import { getWhatsAppUrl } from '../utils/whatsapp';
+import { maskPhoneNumber, maskEmailAddress, maskAddress } from '../utils/crypto';
 
 interface AdminJuryDashboardProps {
   candidates: VoiceCandidate[];
@@ -38,6 +42,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
   const [activeNotesCandidateId, setActiveNotesCandidateId] = useState<string | null>(null);
   const [tempNotes, setTempNotes] = useState<string>('');
   const [candidateToDelete, setCandidateToDelete] = useState<VoiceCandidate | null>(null);
+  const [maskSensitiveData, setMaskSensitiveData] = useState<boolean>(false);
 
   const handleStatusChange = (id: string, newStatus: CandidateStatus) => {
     updateCandidateJury(id, { status: newStatus });
@@ -63,30 +68,37 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
     }
   };
 
-  // Filter candidates
-  const filteredCandidates = candidates.filter((c) => {
-    const matchesSearch =
-      c.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.churchCommunity.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.pastorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.cityAddress.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.registrationNumber.toLowerCase().includes(searchTerm.toLowerCase());
+  // Filter candidates memoized for high-performance fluid rendering
+  const filteredCandidates = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    return candidates.filter((c) => {
+      const matchesSearch =
+        !term ||
+        c.lastName.toLowerCase().includes(term) ||
+        c.firstName.toLowerCase().includes(term) ||
+        c.churchCommunity.toLowerCase().includes(term) ||
+        c.pastorName.toLowerCase().includes(term) ||
+        c.cityAddress.toLowerCase().includes(term) ||
+        c.registrationNumber.toLowerCase().includes(term);
 
-    const matchesRange = filterRange === 'all' || c.vocalRange === filterRange;
-    const matchesStatus = filterStatus === 'all' || c.status === filterStatus;
+      const matchesRange = filterRange === 'all' || c.vocalRange === filterRange;
+      const matchesStatus = filterStatus === 'all' || c.status === filterStatus;
 
-    return matchesSearch && matchesRange && matchesStatus;
-  });
+      return matchesSearch && matchesRange && matchesStatus;
+    });
+  }, [candidates, searchTerm, filterRange, filterStatus]);
 
-  // Stats calculation
-  const totalCount = candidates.length;
-  const choirCount = candidates.filter((c) => c.choirMember && c.choirMember.toLowerCase().includes('oui')).length;
-  const shortlistedCount = candidates.filter((c) => c.status === 'convoque' || c.status === 'retenu').length;
-  const sopranoCount = candidates.filter((c) => c.vocalRange === 'soprano' || c.vocalRange === 'mezzo').length;
-  const tenorCount = candidates.filter((c) => c.vocalRange === 'tenor').length;
-  const altoCount = candidates.filter((c) => c.vocalRange === 'alto').length;
-  const bassCount = candidates.filter((c) => c.vocalRange === 'baryton' || c.vocalRange === 'basse').length;
+  // Stats calculation memoized
+  const stats = useMemo(() => {
+    const totalCount = candidates.length;
+    const choirCount = candidates.filter((c) => c.choirMember && c.choirMember.toLowerCase().includes('oui')).length;
+    const shortlistedCount = candidates.filter((c) => c.status === 'convoque' || c.status === 'retenu').length;
+    const sopranoCount = candidates.filter((c) => c.vocalRange === 'soprano' || c.vocalRange === 'mezzo').length;
+    const tenorCount = candidates.filter((c) => c.vocalRange === 'tenor').length;
+    const altoCount = candidates.filter((c) => c.vocalRange === 'alto').length;
+    const bassCount = candidates.filter((c) => c.vocalRange === 'baryton' || c.vocalRange === 'basse').length;
+    return { totalCount, choirCount, shortlistedCount, sopranoCount, tenorCount, altoCount, bassCount };
+  }, [candidates]);
 
   const getStatusBadge = (status: CandidateStatus) => {
     switch (status) {
@@ -124,11 +136,6 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
       {/* Top Banner Card */}
       <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md p-5 sm:p-6 shadow-sm mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 w-full md:w-auto">
-          <img
-            src="/logo-soiree-des-restaures-08.png"
-            alt="Logo Soirée des Restaurés"
-            className="h-12 sm:h-16 w-auto max-w-[120px] object-contain drop-shadow-2xs shrink-0"
-          />
           <div>
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1.5">
               <span className="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 border border-indigo-100">
@@ -151,7 +158,30 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-center md:justify-end gap-2.5 shrink-0 w-full md:w-auto">
+        <div className="flex flex-wrap items-center justify-center md:justify-end gap-2.5 shrink-0 w-full md:w-auto">
+          <button
+            type="button"
+            onClick={() => setMaskSensitiveData((prev) => !prev)}
+            className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold transition-all cursor-pointer ${
+              maskSensitiveData
+                ? 'border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 shadow-2xs'
+                : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+            }`}
+            title="Masquer ou afficher les numéros et adresses des candidats"
+          >
+            {maskSensitiveData ? (
+              <>
+                <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                <span>Coordonnées Protégées</span>
+              </>
+            ) : (
+              <>
+                <Eye className="h-3.5 w-3.5 text-slate-500" />
+                <span>Mode Discret</span>
+              </>
+            )}
+          </button>
+
           {onLogout && (
             <button
               type="button"
@@ -171,32 +201,32 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
           <span className="text-[11px] font-semibold uppercase text-slate-400">Total Candidatures</span>
-          <p className="mt-1 text-2xl font-bold text-slate-900">{totalCount}</p>
+          <p className="mt-1 text-2xl font-bold text-slate-900">{stats.totalCount}</p>
           <span className="text-[10px] text-slate-500">Inscrits au casting</span>
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
           <span className="text-[11px] font-semibold uppercase text-slate-400">Membres de Chorale</span>
-          <p className="mt-1 text-2xl font-bold text-indigo-600">{choirCount}</p>
+          <p className="mt-1 text-2xl font-bold text-indigo-600">{stats.choirCount}</p>
           <span className="text-[10px] text-slate-500">Pratique chorale active</span>
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
           <span className="text-[11px] font-semibold uppercase text-slate-400">Retenus / Convoqués</span>
-          <p className="mt-1 text-2xl font-bold text-emerald-600">{shortlistedCount}</p>
+          <p className="mt-1 text-2xl font-bold text-emerald-600">{stats.shortlistedCount}</p>
           <span className="text-[10px] text-slate-500">Admis aux étapes suivantes</span>
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
           <span className="text-[11px] font-semibold uppercase text-slate-400">Équilibre des Pupitres</span>
           <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-slate-700">
-            <span title="Sopranos" className="text-pink-600">S:{sopranoCount}</span>
+            <span title="Sopranos" className="text-pink-600">S:{stats.sopranoCount}</span>
             <span>·</span>
-            <span title="Altos" className="text-amber-600">A:{altoCount}</span>
+            <span title="Altos" className="text-amber-600">A:{stats.altoCount}</span>
             <span>·</span>
-            <span title="Ténors" className="text-indigo-600">T:{tenorCount}</span>
+            <span title="Ténors" className="text-indigo-600">T:{stats.tenorCount}</span>
             <span>·</span>
-            <span title="Basses" className="text-emerald-700">B:{bassCount}</span>
+            <span title="Basses" className="text-emerald-700">B:{stats.bassCount}</span>
           </div>
           <span className="text-[10px] text-slate-400">Répartition vocale</span>
         </div>
@@ -261,10 +291,18 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
       ) : (
         <div className="space-y-4">
           {filteredCandidates.map((candidate) => {
-            const displayPhone = `${candidate.phoneCountryCode} ${candidate.phone}`;
-            const displayEmail = candidate.email;
-            const displayAddress = candidate.cityAddress || 'Adresse N/R';
-            const displayPastorPhone = candidate.pastorPhone || '';
+            const displayPhone = maskSensitiveData 
+              ? maskPhoneNumber(candidate.phone) 
+              : `${candidate.phoneCountryCode} ${candidate.phone}`;
+            const displayEmail = maskSensitiveData 
+              ? maskEmailAddress(candidate.email) 
+              : candidate.email;
+            const displayAddress = maskSensitiveData 
+              ? maskAddress(candidate.cityAddress || '') 
+              : (candidate.cityAddress || 'Adresse N/R');
+            const displayPastorPhone = maskSensitiveData 
+              ? maskPhoneNumber(candidate.pastorPhone || '') 
+              : (candidate.pastorPhone || '');
 
             return (
               <div

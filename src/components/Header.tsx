@@ -15,26 +15,28 @@ export const Header: React.FC<HeaderProps> = ({
   isAdminAuthenticated,
 }) => {
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur-md shadow-2xs">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-2.5 sm:py-3 sm:px-6">
         
         {/* Brand & Title with Logo */}
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
+        <div className="flex items-center gap-2.5 sm:gap-4 min-w-0 flex-1 mr-2">
           <img
-            src="/logo-soiree-des-restaures-08.png"
-            alt="Logo Officiel Soirée des Restaurés - Casting"
-            className="h-9 sm:h-12 w-auto max-w-[80px] sm:max-w-[120px] object-contain drop-shadow-2xs shrink-0"
+            src="/llo.png"
+            alt="Logo Officiel JFAT"
+            width={140}
+            height={70}
+            loading="eager"
+            fetchPriority="high"
+            decoding="sync"
+            className="h-11 sm:h-14 md:h-16 w-auto max-w-[130px] sm:max-w-[170px] md:max-w-[200px] object-contain drop-shadow-xs shrink-0 transition-transform hover:scale-105 duration-200 cursor-pointer"
+            onClick={() => onViewChange('form')}
+            title="Accueil - Inscription Audition"
             referrerPolicy="no-referrer"
           />
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-slate-900 tracking-tight text-sm sm:text-base leading-tight block truncate">
-                JFAT Casting
-              </span>
-              <span className="hidden md:inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 border border-indigo-100/80 shrink-0">
-                Audition Officielle
-              </span>
-            </div>
+            <span className="font-extrabold text-slate-900 tracking-tight text-base sm:text-lg md:text-xl leading-tight block truncate">
+              JFAT Casting
+            </span>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, KeyRound, ArrowLeft, AlertCircle, ShieldCheck, Clock, Lock } from 'lucide-react';
+import { Mail, KeyRound, ArrowLeft, AlertCircle, ShieldCheck, Clock, Lock, Eye, EyeOff } from 'lucide-react';
 import { verifyAdminCredentials } from '../utils/crypto';
 
 interface AdminLoginProps {
@@ -16,6 +16,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [failedAttempts, setFailedAttempts] = useState(0);
@@ -72,21 +73,16 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
       
       <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md p-6 sm:p-8 shadow-xl">
         
-        {/* Title requested by user */}
+        {/* Title without logo as requested (logo only in header) */}
         <div className="text-center mb-6">
-          <img
-            src="/logo-soiree-des-restaures-08.png"
-            alt="Soirée des Restaurés - Logo Officiel"
-            className="h-16 sm:h-20 w-auto max-w-[190px] object-contain mx-auto mb-4 drop-shadow-xs"
-          />
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100">
-            <Lock className="h-6 w-6" />
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100 shadow-2xs">
+            <Lock className="h-7 w-7" />
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
             Espace réservé au Jury
           </h2>
           <p className="mt-1 text-xs text-slate-500">
-            Portail d'évaluation et de sélection des candidatures vocales.
+            Portail sécurisé d'évaluation et de sélection des candidatures.
           </p>
         </div>
 
@@ -108,8 +104,8 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                 type="email"
                 id="input-jury-email"
                 required
-                placeholder=""
-                autoComplete="email"
+                placeholder="jury@..."
+                autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-xl border border-slate-300 pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 transition-colors"
@@ -124,14 +120,23 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
             <div className="relative">
               <KeyRound className="absolute left-3.5 top-3 h-4 w-4 text-slate-400" />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="input-jury-password"
                 required
                 placeholder="••••••••"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 transition-colors"
+                className="w-full rounded-xl border border-slate-300 pl-10 pr-10 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 transition-colors"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 focus:outline-none p-0.5"
+                title={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
             </div>
           </div>
 

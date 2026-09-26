@@ -190,7 +190,9 @@ async function start() {
   const isProduction = process.env.NODE_ENV === 'production';
   const distDir = path.resolve(__dirname, 'dist');
 
-  app.use(express.static(path.resolve(__dirname, 'public')));
+  app.use(express.static(path.resolve(__dirname, 'public'), {
+    maxAge: '1d',
+  }));
 
   if (isProduction && fs.existsSync(distDir)) {
     app.use(express.static(distDir));

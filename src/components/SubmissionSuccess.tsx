@@ -21,13 +21,8 @@ export const SubmissionSuccess: React.FC<SubmissionSuccessProps> = ({
       <div className="rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md p-6 sm:p-10 shadow-lg text-center">
         {/* Success Header */}
         <div className="pb-6">
-          <img
-            src="/logo-soiree-des-restaures-08.png"
-            alt="Soirée des Restaurés - Logo Officiel"
-            className="h-16 sm:h-20 w-auto max-w-[200px] object-contain mx-auto mb-4 drop-shadow-xs"
-          />
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 shadow-xs ring-6 ring-emerald-50">
-            <CheckCircle2 className="h-8 w-8" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 shadow-xs ring-8 ring-emerald-50">
+            <CheckCircle2 className="h-9 w-9" />
           </div>
           
           <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200/80 mb-2">

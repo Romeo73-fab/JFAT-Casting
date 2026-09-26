@@ -6,7 +6,6 @@ import { AuditionForm } from './components/AuditionForm';
 import { SubmissionSuccess } from './components/SubmissionSuccess';
 import { AdminJuryDashboard } from './components/AdminJuryDashboard';
 import { AdminLogin } from './components/AdminLogin';
-import bg2Image from './assets/images/bg2.png';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'form' | 'jury' | 'success'>('form');
@@ -77,21 +76,8 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900 selection:bg-indigo-600 selection:text-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-transparent flex flex-col font-sans text-slate-900 selection:bg-indigo-600 selection:text-white">
       
-      {/* Fixed static background layer rendered clearer and brighter with bg2.png */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-0 bg-cover bg-center bg-no-repeat opacity-65"
-        style={{ 
-          backgroundImage: `url(${bg2Image})`,
-          filter: 'brightness(1.10) contrast(1.02)',
-          transform: 'translate3d(0, 0, 0)',
-          WebkitTransform: 'translate3d(0, 0, 0)',
-          willChange: 'transform',
-        }}
-        aria-hidden="true"
-      />
-
       {/* Top Application Bar */}
       <Header
         currentView={currentView}
@@ -104,7 +90,7 @@ export default function App() {
       />
 
       {/* Main View Area */}
-      <main className="flex-1 pb-16 pt-4 relative z-10">
+      <main className="flex-1 pb-16 pt-4 relative z-10 transition-opacity duration-200">
         {currentView === 'form' && (
           <AuditionForm onSuccess={handleSubmissionSuccess} />
         )}
