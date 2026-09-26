@@ -21,9 +21,9 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Brand & Title with Logo */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
           <img
-            src="/logo.jpeg"
-            alt="Logo Officiel Casting"
-            className="h-9 sm:h-11 w-auto max-w-[65px] sm:max-w-[90px] rounded-lg object-contain bg-white shadow-2xs border border-slate-200/90 p-0.5 shrink-0"
+            src="/logo-soiree-des-restaures-08.png"
+            alt="Logo Officiel Soirée des Restaurés - Casting"
+            className="h-9 sm:h-12 w-auto max-w-[80px] sm:max-w-[120px] object-contain drop-shadow-2xs shrink-0"
             referrerPolicy="no-referrer"
           />
           <div className="min-w-0">

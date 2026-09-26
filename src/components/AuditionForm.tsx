@@ -198,6 +198,11 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
       {/* Form Header Card */}
       <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-sm p-6 sm:p-8 shadow-sm mb-6 text-center">
         <div className="flex flex-col items-center justify-center text-center border-b border-slate-100 pb-5">
+          <img
+            src="/logo-soiree-des-restaures-08.png"
+            alt="Soirée des Restaurés - Logo Officiel"
+            className="h-20 sm:h-24 w-auto max-w-[220px] object-contain mb-3 drop-shadow-sm"
+          />
           <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 border border-indigo-100 mb-2">
             Session d'audition Soirée des Restaurés 2026
           </span>

@@ -123,25 +123,32 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
       
       {/* Top Banner Card */}
       <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-md p-5 sm:p-6 shadow-sm mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div className="flex flex-col items-center text-center md:items-start md:text-left w-full md:w-auto">
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1.5">
-            <span className="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 border border-indigo-100">
-              Session d'audition Soirée des Restaurés 2026
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 w-full md:w-auto">
+          <img
+            src="/logo-soiree-des-restaures-08.png"
+            alt="Logo Soirée des Restaurés"
+            className="h-12 sm:h-16 w-auto max-w-[120px] object-contain drop-shadow-2xs shrink-0"
+          />
+          <div>
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1.5">
+              <span className="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 border border-indigo-100">
+                Session d'audition Soirée des Restaurés 2026
               </span>
-              Synchronisé en direct
-            </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                Synchronisé en direct
+              </span>
+            </div>
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+              Espace Jury &amp; Gestion des Auditions
+            </h1>
+            <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-xl">
+              Évaluez les profils vocaux, notez les candidats du casting et exportez les convocations officielles.
+            </p>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-            Espace Jury &amp; Gestion des Auditions
-          </h1>
-          <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-xl">
-            Évaluez les profils vocaux, notez les candidats du casting et exportez les convocations officielles.
-          </p>
         </div>
 
         <div className="flex items-center justify-center md:justify-end gap-2.5 shrink-0 w-full md:w-auto">

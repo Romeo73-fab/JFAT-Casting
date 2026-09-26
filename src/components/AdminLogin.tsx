@@ -74,6 +74,11 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
         
         {/* Title requested by user */}
         <div className="text-center mb-6">
+          <img
+            src="/logo-soiree-des-restaures-08.png"
+            alt="Soirée des Restaurés - Logo Officiel"
+            className="h-16 sm:h-20 w-auto max-w-[190px] object-contain mx-auto mb-4 drop-shadow-xs"
+          />
           <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100">
             <Lock className="h-6 w-6" />
           </div>
