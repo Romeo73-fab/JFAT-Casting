@@ -137,7 +137,6 @@ export default function App() {
         <div className="mx-auto max-w-5xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-800">Josias Folly &amp; Les Adorateur du Tabernacle Casting</span>
-            <span>— Plateforme Officielle de Recrutement Vocal</span>
           </div>
 
           <div className="flex items-center gap-5 text-slate-500 text-xs">

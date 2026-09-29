@@ -341,7 +341,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                           href={getWhatsAppUrl(
                             candidate.phoneCountryCode,
                             candidate.phone,
-                            `Bonjour ${candidate.firstName}, nous vous contactons de la part du jury concernant votre candidature (${candidate.registrationNumber}) au casting de voix Josias Folly & Les Adorateur du Tabernacle.`
+                            `Bonjour ${candidate.firstName}, nous vous contactons de la part du jury concernant votre candidature (${candidate.registrationNumber}) au casting de voix pour le prochain projet du chantre Josias Folly et son groupe musical Les Adorateur du Tabernacle.`
                           )}
                           target="_blank"
                           rel="noopener noreferrer"

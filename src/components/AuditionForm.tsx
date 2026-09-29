@@ -222,7 +222,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
             <div className="text-center py-0.5">
               <div className="inline-flex items-center gap-2 rounded-lg bg-orange-50 border border-orange-200/80 px-3.5 py-1.5 text-xs text-[#f44c00] font-semibold shadow-2xs">
                 <span className="text-sm" role="img" aria-label="sablier">⏳</span>
-                <span>Date limite : <strong className="font-extrabold text-[#f44c00]">05 Octobre 2026</strong></span>
+                <span>Date limite d'inscription : <strong className="font-extrabold text-[#f44c00]">05 Octobre 2026</strong></span>
               </div>
             </div>
 
@@ -235,7 +235,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
               <span className="text-base" role="img" aria-label="calendrier">📅</span>
-              <span className="text-slate-700">Date : <strong className="font-bold text-slate-900">10 Octobre 2026</strong></span>
+              <span className="text-slate-700">Date de l'audience : <strong className="font-bold text-slate-900">10 Octobre 2026</strong></span>
             </div>
             <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
               <span className="text-base" role="img" aria-label="horloge">⏰</span>
