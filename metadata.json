@@ -1,6 +1,6 @@
 {
   "name": "JF & Les Adorateur du Tabernacle Casting",
-  "description": "Formulaire officiel d'inscription et de sélection vocale pour le casting de voix Josias Folly & Les Adorateur du Tabernacle.",
+  "description": "Formulaire officiel d'inscription et de sélection vocale pour le casting de voix Josias Folly & Les Adorateurs du Tabernacle.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

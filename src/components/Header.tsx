@@ -19,10 +19,10 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-2.5 sm:py-3 sm:px-6">
         
         {/* Brand & Title with Logo */}
-        <div className="flex items-center gap-2.5 sm:gap-4 min-w-0 flex-1 mr-2">
+        <div className="flex items-center min-w-0 mr-2">
           <img
             src="/llo.png"
-            alt="Logo Officiel JFAT"
+            alt="Logo Officiel"
             width={140}
             height={70}
             loading="eager"
@@ -33,11 +33,6 @@ export const Header: React.FC<HeaderProps> = ({
             title="Accueil - Inscription Audition"
             referrerPolicy="no-referrer"
           />
-          <div className="min-w-0">
-            <span className="font-extrabold text-slate-900 tracking-tight text-base sm:text-lg md:text-xl leading-tight block truncate">
-              JFAT Casting
-            </span>
-          </div>
         </div>
 
         {/* Action Controls & View Switcher */}

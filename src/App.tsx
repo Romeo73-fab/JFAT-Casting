@@ -134,12 +134,12 @@ export default function App() {
 
       {/* Professional Footer */}
       <footer className="border-t border-slate-200/80 bg-white/90 backdrop-blur-md py-7 text-xs text-slate-600 relative z-10">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">Josias Folly &amp; Les Adorateur du Tabernacle Casting</span>
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 flex flex-col items-center justify-center text-center gap-2.5">
+          <div className="flex items-center justify-center">
+            <span className="font-bold text-slate-800 text-sm sm:text-base">Chantre Josias Folly &amp; Les Adorateurs du Tabernacle</span>
           </div>
 
-          <div className="flex items-center gap-5 text-slate-500 text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-slate-500 text-xs">
             <span>Données protégées</span>
             <span>•</span>
             <span>Fluxio Agency</span>
