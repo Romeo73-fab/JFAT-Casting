@@ -211,23 +211,29 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
             ======================================================== */}
         <div className="mt-5 rounded-2xl border border-indigo-100 bg-gradient-to-b from-indigo-50/70 via-white to-slate-50/70 p-5 sm:p-6 text-slate-800 shadow-2xs space-y-4 text-center">
           <p className="text-base sm:text-lg font-bold text-indigo-900 leading-snug text-center max-w-2xl mx-auto">
-            Tu maîtrises déjà le chant et tu souhaites mettre ta voix au service de Dieu ?
+            Tu maîtrises déjà le chant et tu souhaites mettre ta voix au service d'un projet gospel ?
           </p>
 
-          <div className="space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <div className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed max-w-2xl mx-auto">
             <p>
-              Dans le cadre de notre prochain programme, nous recherchons <strong className="font-semibold text-slate-900">des voix</strong> pour interpréter quelques morceaux en <strong className="font-semibold text-indigo-900">Mass Choir</strong> avec les <strong className="font-semibold text-slate-900">Adorateurs du Tabernacle</strong>.
+              Dans le cadre du prochain programme du chantre Josias Folly, nous recherchons <strong className="font-semibold text-slate-900">des voix</strong> pour interpréter quelques morceaux en <strong className="font-semibold text-indigo-900">Mass Choir</strong> avec son groupe musical <strong className="font-semibold text-slate-900">Les Adorateurs du Tabernacle</strong>.
             </p>
+
+            <div className="inline-flex items-center gap-2 rounded-lg bg-rose-50 border border-rose-200/80 px-3 py-1.5 text-xs text-rose-800 font-semibold shadow-2xs">
+              <span className="text-sm" role="img" aria-label="sablier">⏳</span>
+              <span>Date limite : <strong className="font-extrabold text-rose-900">05 Octobre 2026</strong></span>
+            </div>
+
             <p>
               Une audition est prévue afin d’évaluer les aptitudes vocales et déterminer les profils qui correspondront le mieux aux morceaux.
             </p>
           </div>
 
           {/* Date & Heure Highlights */}
-          <div className="flex flex-wrap items-center gap-3 pt-1">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
               <span className="text-base" role="img" aria-label="calendrier">📅</span>
-              <span className="font-bold text-slate-900">Samedi 03 Octobre 2026</span>
+              <span className="text-slate-700">Date : <strong className="font-bold text-slate-900">10 Octobre 2026</strong></span>
             </div>
             <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
               <span className="text-base" role="img" aria-label="horloge">⏰</span>

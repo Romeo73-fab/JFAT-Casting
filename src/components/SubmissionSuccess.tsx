@@ -56,7 +56,7 @@ export const SubmissionSuccess: React.FC<SubmissionSuccessProps> = ({
               <Calendar className="h-4 w-4 text-indigo-600 shrink-0" />
               <div className="text-center">
                 <span className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Date de l'audition</span>
-                <p className="text-sm font-bold text-slate-900">Samedi 03 Octobre 2026</p>
+                <p className="text-sm font-bold text-slate-900">Samedi 10 Octobre 2026 à 10H</p>
               </div>
             </div>
           </div>
