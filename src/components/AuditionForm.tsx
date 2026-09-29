@@ -220,9 +220,13 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
             </p>
 
             <div className="text-center py-0.5">
-              <div className="inline-flex items-center gap-2 rounded-lg bg-orange-50 border border-orange-200/80 px-3.5 py-1.5 text-xs text-[#f44c00] font-semibold shadow-2xs">
-                <span className="text-sm" role="img" aria-label="sablier">⏳</span>
-                <span>Date limite d'inscription : <strong className="font-extrabold text-[#f44c00]">05 Octobre 2026</strong></span>
+              <div className="inline-flex items-center gap-2.5 rounded-lg bg-orange-50 border border-orange-200/80 px-4 py-2 text-xs text-[#f44c00] font-semibold shadow-2xs">
+                <span className="text-base" role="img" aria-label="sablier">⏳</span>
+                <div className="text-left">
+                  <span>Date limite d'inscription :</span>
+                  <br />
+                  <strong className="font-extrabold text-[#f44c00]">05 Octobre 2026</strong>
+                </div>
               </div>
             </div>
 
@@ -233,22 +237,30 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
 
           {/* Date & Heure Highlights */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-            <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
+            <div className="inline-flex items-center gap-2.5 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
               <span className="text-base" role="img" aria-label="calendrier">📅</span>
-              <span className="text-slate-700">Date de l'audience : <strong className="font-bold text-slate-900">10 Octobre 2026</strong></span>
+              <div className="text-left">
+                <span className="text-slate-700">Date de l'audition :</span>
+                <br />
+                <strong className="font-bold text-slate-900">10 Octobre 2026</strong>
+              </div>
             </div>
-            <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
+            <div className="inline-flex items-center gap-2.5 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
               <span className="text-base" role="img" aria-label="horloge">⏰</span>
-              <span className="text-slate-700">Heure : <strong className="font-bold text-[#f44c00]">10H</strong></span>
+              <div className="text-left">
+                <span className="text-slate-700">Heure :</span>
+                <br />
+                <strong className="font-bold text-[#f44c00]">10H</strong>
+              </div>
             </div>
           </div>
 
-          {/* Note de précision (NB : Condition) */}
+          {/* Note de précision (NB : Conditions) */}
           <div className="rounded-xl bg-orange-50/70 border border-orange-200/80 p-4 sm:p-5 text-xs text-stone-900 text-left space-y-2.5">
             <div className="flex items-center gap-2 pb-1.5 border-b border-orange-200/70">
               <Info className="h-4 w-4 text-[#f44c00] shrink-0" />
               <strong className="font-bold text-slate-900 text-xs sm:text-sm tracking-wide">
-                NB : Condition
+                NB : Conditions
               </strong>
             </div>
             <ul className="space-y-1.5 text-slate-800 leading-relaxed text-justify list-disc pl-4 text-xs sm:text-[13px] w-full">
