@@ -92,14 +92,14 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
     // 1. Identité
     if (!formData.lastName.trim()) newErrors.lastName = 'Le nom de famille est obligatoire.';
     if (!formData.firstName.trim()) newErrors.firstName = 'Le prénom est obligatoire.';
-    if (!formData.gender) newErrors.gender = 'Le genre vocal est obligatoire.';
+    if (!formData.gender) newErrors.gender = 'Veuillez sélectionner votre sexe.';
     
     if (formData.age === '' || formData.age === undefined) {
       newErrors.age = "L'âge est obligatoire.";
     } else if (Number(formData.age) < 20) {
-      newErrors.age = "L'âge minimum requis pour s'inscrire est de 20 ans.";
-    } else if (Number(formData.age) > 85) {
-      newErrors.age = "Veuillez saisir un âge valide (inférieur à 85 ans).";
+      newErrors.age = "L'âge minimum requis pour l'audition est de 20 ans.";
+    } else if (Number(formData.age) > 40) {
+      newErrors.age = "L'âge maximum requis pour l'audition est de 40 ans (20 à 40 ans).";
     }
 
     if (!formData.cityAddress.trim()) {
@@ -198,7 +198,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
       {/* Form Header Card */}
       <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-sm p-6 sm:p-8 shadow-sm mb-6 text-center">
         <div className="flex flex-col items-center justify-center text-center border-b border-slate-100 pb-5">
-          <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 border border-indigo-100 mb-2">
+          <span className="inline-flex items-center rounded-full bg-orange-50 px-3.5 py-1 text-xs font-semibold text-[#f44c00] border border-orange-200/80 mb-2 shadow-2xs">
             Session d'audition Soirée des Restaurés 2026
           </span>
           <h1 className="font-breathing text-3xl sm:text-4xl md:text-5xl text-slate-900 text-center py-1 tracking-normal font-normal">
@@ -209,22 +209,24 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
         {/* ========================================================
             ANNONCE OFFICIELLE D'AUDITION
             ======================================================== */}
-        <div className="mt-5 rounded-2xl border border-indigo-100 bg-gradient-to-b from-indigo-50/70 via-white to-slate-50/70 p-5 sm:p-6 text-slate-800 shadow-2xs space-y-4 text-center">
-          <p className="text-base sm:text-lg font-bold text-indigo-900 leading-snug text-center max-w-2xl mx-auto">
+        <div className="mt-5 rounded-2xl border border-orange-100/90 bg-gradient-to-b from-orange-50/40 via-white to-stone-50/40 p-5 sm:p-6 text-slate-800 shadow-2xs space-y-4">
+          <p className="text-base sm:text-lg font-bold text-slate-900 leading-snug text-center">
             Tu maîtrises déjà le chant et tu souhaites mettre ta voix au service d'un projet gospel ?
           </p>
 
-          <div className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed max-w-2xl mx-auto">
-            <p>
-              Dans le cadre du prochain programme du chantre Josias Folly, nous recherchons <strong className="font-semibold text-slate-900">des voix</strong> pour interpréter quelques morceaux en <strong className="font-semibold text-indigo-900">Mass Choir</strong> avec son groupe musical <strong className="font-semibold text-slate-900">Les Adorateurs du Tabernacle</strong>.
+          <div className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed text-justify w-full">
+            <p className="text-justify leading-relaxed w-full">
+              Dans le cadre du prochain programme du chantre Josias Folly, nous recherchons <strong className="font-semibold text-slate-900">des voix</strong> pour interpréter quelques morceaux en <strong className="font-bold text-[#f44c00]">Mass Choir</strong> avec son groupe musical <strong className="font-semibold text-slate-900">Les Adorateurs du Tabernacle</strong>.
             </p>
 
-            <div className="inline-flex items-center gap-2 rounded-lg bg-rose-50 border border-rose-200/80 px-3 py-1.5 text-xs text-rose-800 font-semibold shadow-2xs">
-              <span className="text-sm" role="img" aria-label="sablier">⏳</span>
-              <span>Date limite : <strong className="font-extrabold text-rose-900">05 Octobre 2026</strong></span>
+            <div className="text-center py-0.5">
+              <div className="inline-flex items-center gap-2 rounded-lg bg-orange-50 border border-orange-200/80 px-3.5 py-1.5 text-xs text-[#f44c00] font-semibold shadow-2xs">
+                <span className="text-sm" role="img" aria-label="sablier">⏳</span>
+                <span>Date limite : <strong className="font-extrabold text-[#f44c00]">05 Octobre 2026</strong></span>
+              </div>
             </div>
 
-            <p>
+            <p className="text-justify leading-relaxed w-full">
               Une audition est prévue afin d’évaluer les aptitudes vocales et déterminer les profils qui correspondront le mieux aux morceaux.
             </p>
           </div>
@@ -237,16 +239,25 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
             </div>
             <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200/90 px-3.5 py-2 shadow-2xs text-xs sm:text-sm">
               <span className="text-base" role="img" aria-label="horloge">⏰</span>
-              <span className="text-slate-700">Heure : <strong className="font-bold text-indigo-700">10H</strong></span>
+              <span className="text-slate-700">Heure : <strong className="font-bold text-[#f44c00]">10H</strong></span>
             </div>
           </div>
 
-          {/* Note de précision (NB) */}
-          <div className="rounded-xl bg-amber-50/90 border border-amber-200/90 p-3 sm:p-3.5 text-xs text-amber-950 flex items-start gap-2.5">
-            <Info className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
-            <p className="leading-relaxed">
-              <strong className="font-bold text-amber-900">NB :</strong> Cette audition est destinée aux personnes nées de nouveau et ayant déjà une bonne maîtrise vocale. La ponctualité et la disponibilité pour les répétitions sont indispensables.
-            </p>
+          {/* Note de précision (NB : Condition) */}
+          <div className="rounded-xl bg-orange-50/70 border border-orange-200/80 p-4 sm:p-5 text-xs text-stone-900 text-left space-y-2.5">
+            <div className="flex items-center gap-2 pb-1.5 border-b border-orange-200/70">
+              <Info className="h-4 w-4 text-[#f44c00] shrink-0" />
+              <strong className="font-bold text-slate-900 text-xs sm:text-sm tracking-wide">
+                NB : Condition
+              </strong>
+            </div>
+            <ul className="space-y-1.5 text-slate-800 leading-relaxed text-justify list-disc pl-4 text-xs sm:text-[13px] w-full">
+              <li className="text-justify leading-relaxed">Cette audition est destinée aux personnes nées de nouveau et ayant déjà une bonne maîtrise vocale.</li>
+              <li className="text-justify leading-relaxed">Âge requis : 20 À 40 ans.</li>
+              <li className="text-justify leading-relaxed">Préparer un chant chrétien à interpréter</li>
+              <li className="text-justify leading-relaxed">S'engager à participer aux répétitions et prestations en cas d'intégration.</li>
+              <li className="text-justify leading-relaxed">Adhérer aux valeurs du groupe : discipline, humilité, consécration et excellence.</li>
+            </ul>
           </div>
         </div>
 
@@ -274,7 +285,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
             ======================================================== */}
         <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-sm p-6 sm:p-8 shadow-sm">
           <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-100">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-orange-50 text-[#f44c00]">
               <User className="h-4 w-4" />
             </span>
             <h2 className="text-base font-bold text-slate-900">
@@ -301,7 +312,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                     className={`w-full rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                       errors.lastName
                         ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                        : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                        : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                     }`}
                   />
                   <span className="mt-1 block text-[11px] text-slate-400">Nom de famille</span>
@@ -318,7 +329,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                     className={`w-full rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                       errors.firstName
                         ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                        : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                        : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                     }`}
                   />
                   <span className="mt-1 block text-[11px] text-slate-400">Prénom</span>
@@ -327,13 +338,13 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
               </div>
             </div>
 
-            {/* Genre & Âge */}
+            {/* Sexe & Âge */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
               
-              {/* Genre (Obligatoire) */}
+              {/* Sexe (Obligatoire) */}
               <div id="field-gender">
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                  Genre vocal <span className="text-rose-600">*</span>
+                  Sexe <span className="text-rose-600">*</span>
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
@@ -341,22 +352,22 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                     onClick={() => handleInputChange('gender', 'femme')}
                     className={`rounded-xl border py-2.5 text-xs font-semibold transition-all ${
                       formData.gender === 'femme'
-                        ? 'border-indigo-600 bg-indigo-50 text-indigo-700 shadow-xs ring-2 ring-indigo-200'
+                        ? 'border-[#f44c00] bg-orange-50/90 text-[#f44c00] shadow-xs ring-2 ring-[#fb9540]/30'
                         : 'border-slate-200 bg-slate-50/60 text-slate-600 hover:bg-slate-100'
                     }`}
                   >
-                    Femme (Voix féminine)
+                    Femme
                   </button>
                   <button
                     type="button"
                     onClick={() => handleInputChange('gender', 'homme')}
                     className={`rounded-xl border py-2.5 text-xs font-semibold transition-all ${
                       formData.gender === 'homme'
-                        ? 'border-indigo-600 bg-indigo-50 text-indigo-700 shadow-xs ring-2 ring-indigo-200'
+                        ? 'border-[#f44c00] bg-orange-50/90 text-[#f44c00] shadow-xs ring-2 ring-[#fb9540]/30'
                         : 'border-slate-200 bg-slate-50/60 text-slate-600 hover:bg-slate-100'
                     }`}
                   >
-                    Homme (Voix masculine)
+                    Homme
                   </button>
                 </div>
                 {errors.gender && <p className="text-[11px] text-rose-600 mt-1">{errors.gender}</p>}
@@ -371,17 +382,17 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                   type="number"
                   id="input-candidate-age"
                   min="20"
-                  max="99"
-                  placeholder="ex: 22"
+                  max="40"
+                  placeholder="ex: 24"
                   value={formData.age}
                   onChange={(e) => handleInputChange('age', e.target.value ? Number(e.target.value) : '')}
                   className={`w-full sm:w-36 rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                     errors.age
                       ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                      : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                      : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                   }`}
                 />
-                <span className="mt-1 block text-[11px] text-slate-500 font-medium">Âge minimum requis : 20 ans</span>
+                <span className="mt-1 block text-[11px] text-slate-500 font-medium">Âge requis : 20 à 40 ans</span>
                 {errors.age && <p className="text-[11px] text-rose-600 mt-0.5">{errors.age}</p>}
               </div>
 
@@ -403,7 +414,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                   className={`w-full rounded-xl border pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                     errors.cityAddress
                       ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                      : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                      : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                   }`}
                 />
               </div>
@@ -430,7 +441,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                     className={`w-full rounded-xl border pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                       errors.email
                         ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                        : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                        : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                     }`}
                   />
                 </div>
@@ -448,7 +459,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                     id="select-phone-country"
                     value={formData.phoneCountryCode}
                     onChange={(e) => handleInputChange('phoneCountryCode', e.target.value)}
-                    className="w-24 rounded-xl border border-slate-300 bg-white px-2.5 py-2.5 text-xs font-medium text-slate-800 focus:border-indigo-500 focus:outline-none"
+                    className="w-24 rounded-xl border border-slate-300 bg-white px-2.5 py-2.5 text-xs font-medium text-slate-800 focus:border-[#f44c00] focus:outline-none"
                   >
                     <option value="+229">🇧🇯 +229</option>
                     <option value="+225">🇨🇮 +225</option>
@@ -472,7 +483,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                       className={`w-full rounded-xl border pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                         errors.phone
                           ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                          : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                          : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                       }`}
                     />
                   </div>
@@ -491,7 +502,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
             ======================================================== */}
         <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-sm p-6 sm:p-8 shadow-sm">
           <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-100">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-orange-50 text-[#f44c00]">
               <Church className="h-4 w-4" />
             </span>
             <div>
@@ -517,7 +528,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                 className={`w-full rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                   errors.churchCommunity
                     ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                    : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                    : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                 }`}
               />
               <span className="mt-1 block text-[11px] text-slate-400">
@@ -541,7 +552,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                   className={`w-full rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                     errors.pastorName
                       ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                      : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                      : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                   }`}
                 />
                 <span className="mt-1 block text-[11px] text-slate-400">
@@ -564,7 +575,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                   className={`w-full rounded-xl border px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:outline-none focus:ring-2 ${
                     errors.pastorPhone
                       ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                      : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                      : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                   }`}
                 />
                 <span className="mt-1 block text-[11px] text-slate-400">
@@ -582,7 +593,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
             ======================================================== */}
         <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-sm p-6 sm:p-8 shadow-sm">
           <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-100">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-orange-50 text-[#f44c00]">
               <Music className="h-4 w-4" />
             </span>
             <div>
@@ -615,7 +626,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                     onClick={() => handleInputChange('vocalRange', item.id as VocalRange)}
                     className={`rounded-xl border p-3 text-left transition-all cursor-pointer ${
                       formData.vocalRange === item.id
-                        ? 'border-indigo-600 bg-indigo-50/80 ring-2 ring-indigo-200'
+                        ? 'border-[#f44c00] bg-orange-50/80 ring-2 ring-[#fb9540]/30 shadow-2xs'
                         : 'border-slate-200 hover:border-slate-300 bg-white'
                     }`}
                   >
@@ -642,7 +653,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                   className={`w-full rounded-xl border px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 ${
                     errors.choirMember
                       ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                      : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                      : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                   }`}
                 >
                   <option value="">-- Sélectionnez une réponse --</option>
@@ -674,7 +685,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                       className={`w-full rounded-xl border px-3.5 py-2.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 ${
                         errors.yearsExperience
                           ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                          : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                          : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                       }`}
                     />
                     <span className="mt-1 block text-[10px] text-slate-400">Années (ex: 0, 1, 3)</span>
@@ -688,7 +699,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
                       className={`w-full rounded-xl border bg-white px-2.5 py-2.5 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 ${
                         errors.experienceLevel
                           ? 'border-rose-300 bg-rose-50/20 focus:border-rose-500 focus:ring-rose-200'
-                          : 'border-slate-300 focus:border-indigo-500 focus:ring-indigo-100'
+                          : 'border-slate-300 focus:border-[#f44c00] focus:ring-[#fb9540]/25'
                       }`}
                     >
                       <option value="">Niveau estimé *</option>
@@ -720,7 +731,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
             type="button"
             id="btn-clear-responses"
             onClick={handleClearAll}
-            className="text-xs text-slate-400 hover:text-rose-600 flex items-center gap-1.5 transition-colors order-3 sm:order-1"
+            className="text-xs text-slate-400 hover:text-rose-600 flex items-center gap-1.5 transition-colors order-3 sm:order-1 cursor-pointer"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Effacer toutes les réponses
@@ -734,7 +745,7 @@ export const AuditionForm: React.FC<AuditionFormProps> = ({ onSuccess }) => {
               type="submit"
               id="btn-submit-candidature"
               disabled={isSubmitting}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-8 py-3.5 text-sm font-bold text-white shadow-md hover:bg-emerald-700 active:scale-95 transition-all disabled:opacity-50 cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#f44c00] to-[#fb9540] hover:opacity-95 text-white px-8 py-3.5 text-sm font-bold shadow-md shadow-orange-500/25 active:scale-95 transition-all disabled:opacity-50 cursor-pointer"
             >
               {isSubmitting ? (
                 <>

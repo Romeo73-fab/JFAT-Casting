@@ -51,7 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onViewChange('form')}
               className={`flex items-center gap-1 sm:gap-1.5 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-semibold transition-all ${
                 currentView === 'form' || currentView === 'success'
-                  ? 'bg-white text-indigo-600 shadow-xs'
+                  ? 'bg-white text-[#f44c00] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -65,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onViewChange('jury')}
               className={`flex items-center gap-1 sm:gap-1.5 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                 currentView === 'jury'
-                  ? 'bg-white text-indigo-600 shadow-xs'
+                  ? 'bg-white text-[#f44c00] shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
               title="Espace réservé au Jury"

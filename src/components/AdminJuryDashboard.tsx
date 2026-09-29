@@ -138,7 +138,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
         <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 w-full md:w-auto">
           <div>
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1.5">
-              <span className="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-700 border border-indigo-100">
+              <span className="inline-flex items-center rounded-full bg-orange-50 px-2.5 py-0.5 text-[11px] font-semibold text-[#f44c00] border border-orange-200">
                 Session d'audition Soirée des Restaurés 2026
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200">
@@ -207,7 +207,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
 
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
           <span className="text-[11px] font-semibold uppercase text-slate-400">Membres de Chorale</span>
-          <p className="mt-1 text-2xl font-bold text-indigo-600">{stats.choirCount}</p>
+          <p className="mt-1 text-2xl font-bold text-[#f44c00]">{stats.choirCount}</p>
           <span className="text-[10px] text-slate-500">Pratique chorale active</span>
         </div>
 
@@ -224,7 +224,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
             <span>·</span>
             <span title="Altos" className="text-amber-600">A:{stats.altoCount}</span>
             <span>·</span>
-            <span title="Ténors" className="text-indigo-600">T:{stats.tenorCount}</span>
+            <span title="Ténors" className="text-[#f44c00]">T:{stats.tenorCount}</span>
             <span>·</span>
             <span title="Basses" className="text-emerald-700">B:{stats.bassCount}</span>
           </div>
@@ -242,7 +242,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
             placeholder="Rechercher par nom, prénom, église, pasteur, dossier..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-lg border border-slate-200 pl-9 pr-4 py-2 text-xs text-slate-800 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="w-full rounded-lg border border-slate-200 pl-9 pr-4 py-2 text-xs text-slate-800 placeholder-slate-400 focus:border-[#f44c00] focus:outline-none focus:ring-1 focus:ring-[#f44c00]"
           />
         </div>
 
@@ -252,7 +252,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
             id="select-filter-range"
             value={filterRange}
             onChange={(e) => setFilterRange(e.target.value)}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:border-indigo-500 focus:outline-none"
+            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:border-[#f44c00] focus:outline-none"
           >
             <option value="all">Toutes les tessitures</option>
             <option value="soprano">Soprano</option>
@@ -268,7 +268,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
             id="select-filter-status"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:border-indigo-500 focus:outline-none"
+            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:border-[#f44c00] focus:outline-none"
           >
             <option value="all">Tous les statuts</option>
             <option value="en_attente">En attente</option>
@@ -314,7 +314,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                   {/* Identity & Details */}
                   <div className="space-y-2 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
+                      <span className="font-mono text-xs font-bold text-[#f44c00] bg-orange-50 px-2 py-0.5 rounded-md border border-orange-200">
                         {candidate.registrationNumber}
                       </span>
                       <h3 className="text-base font-bold text-slate-900">
@@ -331,7 +331,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                       <div className="flex flex-wrap items-center gap-2">
                         <div className="flex items-center gap-1.5">
                           <Phone className="h-3.5 w-3.5 text-slate-400 shrink-0" />
-                          <a href={`tel:${candidate.phoneCountryCode}${candidate.phone}`} className="hover:text-indigo-600 font-medium">
+                          <a href={`tel:${candidate.phoneCountryCode}${candidate.phone}`} className="hover:text-[#f44c00] font-medium">
                             {displayPhone}
                           </a>
                         </div>
@@ -341,7 +341,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                           href={getWhatsAppUrl(
                             candidate.phoneCountryCode,
                             candidate.phone,
-                            `Bonjour ${candidate.firstName}, nous vous contactons de la part du jury concernant votre candidature (${candidate.registrationNumber}) au casting de voix JF & Les Adorateur du Tabernacle.`
+                            `Bonjour ${candidate.firstName}, nous vous contactons de la part du jury concernant votre candidature (${candidate.registrationNumber}) au casting de voix Josias Folly & Les Adorateur du Tabernacle.`
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -397,7 +397,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                     <div className="flex items-center gap-1.5 sm:col-span-2">
                       <Music className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                       <span>
-                        <strong className="text-slate-700">Tessiture :</strong> <span className="font-semibold text-indigo-700 capitalize">{candidate.vocalRange}</span> ({candidate.yearsExperience ? `${candidate.yearsExperience} ans exp.` : 'Débutant'})
+                        <strong className="text-slate-700">Tessiture :</strong> <span className="font-semibold text-[#f44c00] capitalize">{candidate.vocalRange}</span> ({candidate.yearsExperience ? `${candidate.yearsExperience} ans exp.` : 'Débutant'})
                         {candidate.choirMember && (
                           <span className="ml-2 text-slate-600">• <strong>Chorale :</strong> {candidate.choirMember}</span>
                         )}
@@ -417,7 +417,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                     <select
                       value={candidate.status}
                       onChange={(e) => handleStatusChange(candidate.id, e.target.value as CandidateStatus)}
-                      className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 shadow-2xs focus:border-indigo-500 focus:outline-none"
+                      className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 shadow-2xs focus:border-[#f44c00] focus:outline-none"
                     >
                       <option value="en_attente">⏳ En attente</option>
                       <option value="convoque">🎙️ Convoquer pour audition</option>
@@ -461,7 +461,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                         );
                         setTempNotes(candidate.juryNotes || '');
                       }}
-                      className="text-xs font-medium text-indigo-600 hover:text-indigo-800 underline"
+                      className="text-xs font-medium text-[#f44c00] hover:text-[#f44c00]/80 underline"
                     >
                       {candidate.juryNotes ? 'Modifier remarques' : '+ Ajouter remarque'}
                     </button>
@@ -484,7 +484,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
               {activeNotesCandidateId === candidate.id && (
                 <div className="mt-4 pt-3 border-t border-slate-100">
                   <label className="block text-xs font-semibold text-slate-700 mb-1.5 flex items-center gap-1">
-                    <Sparkles className="h-3.5 w-3.5 text-indigo-600" />
+                    <Sparkles className="h-3.5 w-3.5 text-[#f44c00]" />
                     Commentaires confidentiels du jury d'écoute :
                   </label>
                   <textarea
@@ -492,7 +492,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                     value={tempNotes}
                     onChange={(e) => setTempNotes(e.target.value)}
                     placeholder="Ex: Belle aisance dans les aigus, justesse impeccable, tenue de souffle à perfectionner..."
-                    className="w-full rounded-lg border border-slate-300 p-2.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none"
+                    className="w-full rounded-lg border border-slate-300 p-2.5 text-xs text-slate-800 focus:border-[#f44c00] focus:outline-none"
                   />
                   <div className="mt-2 flex justify-end gap-2">
                     <button
@@ -505,7 +505,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => handleSaveNotes(candidate.id)}
-                      className="rounded-md bg-indigo-600 px-3 py-1 text-xs font-semibold text-white hover:bg-indigo-700 cursor-pointer"
+                      className="rounded-md bg-gradient-to-r from-[#f44c00] to-[#fb9540] hover:opacity-95 px-3.5 py-1 text-xs font-semibold text-white shadow-xs cursor-pointer"
                     >
                       Enregistrer la remarque
                     </button>
@@ -516,7 +516,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
               {/* Display existing notes if not editing */}
               {candidate.juryNotes && activeNotesCandidateId !== candidate.id && (
                 <div className="mt-3 rounded-lg bg-slate-50 p-2.5 text-xs text-slate-700 border border-slate-100 flex items-start gap-2">
-                  <span className="font-semibold text-indigo-900 shrink-0">Note du jury :</span>
+                  <span className="font-semibold text-slate-900 shrink-0">Note du jury :</span>
                   <span>{candidate.juryNotes}</span>
                 </div>
               )}
@@ -543,7 +543,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                   Confirmer la suppression
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Dossier : <span className="font-mono font-semibold text-indigo-700">{candidateToDelete.registrationNumber}</span>
+                  Dossier : <span className="font-mono font-semibold text-[#f44c00]">{candidateToDelete.registrationNumber}</span>
                 </p>
               </div>
             </div>

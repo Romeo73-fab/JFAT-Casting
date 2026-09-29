@@ -75,7 +75,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
         
         {/* Title without logo as requested (logo only in header) */}
         <div className="text-center mb-6">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100 shadow-2xs">
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-[#f44c00] border border-orange-200/80 shadow-2xs">
             <Lock className="h-7 w-7" />
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
@@ -108,7 +108,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                 autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 transition-colors"
+                className="w-full rounded-xl border border-slate-300 pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-[#f44c00] focus:outline-none focus:ring-2 focus:ring-[#fb9540]/25 transition-colors"
               />
             </div>
           </div>
@@ -127,7 +127,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 pl-10 pr-10 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 transition-colors"
+                className="w-full rounded-xl border border-slate-300 pl-10 pr-10 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-[#f44c00] focus:outline-none focus:ring-2 focus:ring-[#fb9540]/25 transition-colors"
               />
               <button
                 type="button"
@@ -145,7 +145,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
               type="submit"
               id="btn-jury-login"
               disabled={isLoading || lockoutRemaining > 0}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white shadow-sm hover:bg-indigo-700 active:scale-98 transition-all disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#f44c00] to-[#fb9540] hover:opacity-95 px-5 py-3 text-sm font-bold text-white shadow-md shadow-orange-500/20 active:scale-98 transition-all disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -175,7 +175,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
           <button
             type="button"
             onClick={onBackToForm}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-indigo-600 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-[#f44c00] transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Retour au formulaire de candidature

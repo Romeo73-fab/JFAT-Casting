@@ -76,7 +76,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-transparent flex flex-col font-sans text-slate-900 selection:bg-indigo-600 selection:text-white">
+    <div className="relative min-h-screen bg-transparent flex flex-col font-sans text-slate-900 selection:bg-[#f44c00] selection:text-white">
       
       {/* Top Application Bar */}
       <Header
@@ -136,7 +136,7 @@ export default function App() {
       <footer className="border-t border-slate-200/80 bg-white/90 backdrop-blur-md py-7 text-xs text-slate-600 relative z-10">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">JF &amp; Les Adorateur du Tabernacle Casting</span>
+            <span className="font-bold text-slate-800">Josias Folly &amp; Les Adorateur du Tabernacle Casting</span>
             <span>— Plateforme Officielle de Recrutement Vocal</span>
           </div>
 
