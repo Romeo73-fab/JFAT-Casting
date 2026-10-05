@@ -16,12 +16,14 @@ import {
   Sparkles,
   Eye,
   EyeOff,
-  ShieldCheck
+  ShieldCheck,
+  FileDown
 } from 'lucide-react';
 import { VoiceCandidate, CandidateStatus } from '../types';
 import { updateCandidateJury, deleteCandidate } from '../utils/storage';
 import { getWhatsAppUrl } from '../utils/whatsapp';
 import { maskPhoneNumber, maskEmailAddress, maskAddress } from '../utils/crypto';
+import { exportCandidatesToPDF } from '../utils/pdfExport';
 
 interface AdminJuryDashboardProps {
   candidates: VoiceCandidate[];
@@ -159,6 +161,17 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center justify-center md:justify-end gap-2.5 shrink-0 w-full md:w-auto">
+          <button
+            type="button"
+            id="btn-export-pdf"
+            onClick={() => exportCandidatesToPDF(filteredCandidates.length > 0 ? filteredCandidates : candidates)}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[#f44c00] hover:bg-[#d63f00] text-white px-3.5 py-2 text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+            title="Télécharger la liste complète des inscrits au format PDF"
+          >
+            <FileDown className="h-3.5 w-3.5" />
+            <span>Télécharger PDF ({filteredCandidates.length})</span>
+          </button>
+
           <button
             type="button"
             onClick={() => setMaskSensitiveData((prev) => !prev)}
