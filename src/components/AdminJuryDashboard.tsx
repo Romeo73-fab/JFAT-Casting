@@ -16,12 +16,17 @@ import {
   Sparkles,
   Eye,
   EyeOff,
-  ShieldCheck
+  ShieldCheck,
+  UserPlus,
+  X,
+  Check,
+  FileDown
 } from 'lucide-react';
-import { VoiceCandidate, CandidateStatus } from '../types';
-import { updateCandidateJury, deleteCandidate } from '../utils/storage';
+import { VoiceCandidate, CandidateStatus, VocalRange, ExperienceLevel } from '../types';
+import { updateCandidateJury, deleteCandidate, saveCandidate, generateRegistrationNumber } from '../utils/storage';
 import { getWhatsAppUrl } from '../utils/whatsapp';
 import { maskPhoneNumber, maskEmailAddress, maskAddress } from '../utils/crypto';
+import { exportCandidatesToPDF } from '../utils/pdfExport';
 
 interface AdminJuryDashboardProps {
   candidates: VoiceCandidate[];
@@ -43,6 +48,90 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
   const [tempNotes, setTempNotes] = useState<string>('');
   const [candidateToDelete, setCandidateToDelete] = useState<VoiceCandidate | null>(null);
   const [maskSensitiveData, setMaskSensitiveData] = useState<boolean>(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [addSuccessCandidate, setAddSuccessCandidate] = useState<VoiceCandidate | null>(null);
+  const [addError, setAddError] = useState<string | null>(null);
+  const [newCandidateData, setNewCandidateData] = useState({
+    lastName: '',
+    firstName: '',
+    gender: 'femme' as 'femme' | 'homme' | '',
+    age: '',
+    phoneCountryCode: '+229',
+    phone: '',
+    email: '',
+    cityAddress: '',
+    vocalRange: 'soprano' as VocalRange,
+    experienceLevel: 'intermediaire' as ExperienceLevel,
+    yearsExperience: '2',
+    churchCommunity: '',
+    pastorName: '',
+    pastorPhone: '',
+    choirMember: 'Oui',
+  });
+
+  const handleAddNewCandidate = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCandidateData.lastName.trim() || !newCandidateData.firstName.trim()) {
+      setAddError('Le nom et le prénom sont obligatoires.');
+      return;
+    }
+    if (!newCandidateData.phone.trim()) {
+      setAddError('Le numéro de téléphone est obligatoire.');
+      return;
+    }
+    if (!newCandidateData.vocalRange) {
+      setAddError('Veuillez sélectionner une tessiture / pupitre.');
+      return;
+    }
+
+    const regNumber = generateRegistrationNumber();
+    const candidateId = `cand_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
+    const newCandidate: VoiceCandidate = {
+      id: candidateId,
+      registrationNumber: regNumber,
+      submittedAt: new Date().toISOString(),
+      status: 'en_attente',
+      lastName: newCandidateData.lastName.trim().toUpperCase(),
+      firstName: newCandidateData.firstName.trim(),
+      gender: newCandidateData.gender || 'femme',
+      age: Number(newCandidateData.age) || '',
+      email: newCandidateData.email.trim(),
+      phoneCountryCode: newCandidateData.phoneCountryCode || '+229',
+      phone: newCandidateData.phone.trim(),
+      cityAddress: newCandidateData.cityAddress.trim(),
+      churchCommunity: newCandidateData.churchCommunity.trim(),
+      pastorName: newCandidateData.pastorName.trim(),
+      pastorPhone: newCandidateData.pastorPhone.trim(),
+      vocalRange: newCandidateData.vocalRange,
+      choirMember: newCandidateData.choirMember || 'Oui',
+      experienceLevel: newCandidateData.experienceLevel || 'intermediaire',
+      yearsExperience: Number(newCandidateData.yearsExperience) || 1,
+    };
+
+    saveCandidate(newCandidate);
+    onRefresh();
+    setIsAddModalOpen(false);
+    setAddSuccessCandidate(newCandidate);
+    setAddError(null);
+    setNewCandidateData({
+      lastName: '',
+      firstName: '',
+      gender: 'femme',
+      age: '',
+      phoneCountryCode: '+229',
+      phone: '',
+      email: '',
+      cityAddress: '',
+      vocalRange: 'soprano',
+      experienceLevel: 'intermediaire',
+      yearsExperience: '2',
+      churchCommunity: '',
+      pastorName: '',
+      pastorPhone: '',
+      choirMember: 'Oui',
+    });
+  };
 
   const handleStatusChange = (id: string, newStatus: CandidateStatus) => {
     updateCandidateJury(id, { status: newStatus });
@@ -161,6 +250,28 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
         <div className="flex flex-wrap items-center justify-center md:justify-end gap-2.5 shrink-0 w-full md:w-auto">
           <button
             type="button"
+            id="btn-export-pdf"
+            onClick={() => exportCandidatesToPDF(filteredCandidates.length > 0 ? filteredCandidates : candidates)}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 px-3.5 py-2 text-xs font-bold transition-all shadow-2xs cursor-pointer active:scale-95"
+            title="Télécharger la liste des inscrits au format PDF"
+          >
+            <FileDown className="h-3.5 w-3.5 text-[#f44c00]" />
+            <span>Télécharger PDF ({filteredCandidates.length})</span>
+          </button>
+
+          <button
+            type="button"
+            id="btn-add-candidate-manual"
+            onClick={() => setIsAddModalOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#f44c00] to-[#fb9540] hover:opacity-95 text-white px-3.5 py-2 text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+            title="Inscrire manuellement un nouveau candidat au casting"
+          >
+            <UserPlus className="h-3.5 w-3.5" />
+            <span>+ Inscrire un candidat</span>
+          </button>
+
+          <button
+            type="button"
             onClick={() => setMaskSensitiveData((prev) => !prev)}
             className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold transition-all cursor-pointer ${
               maskSensitiveData
@@ -196,6 +307,50 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
           )}
         </div>
       </div>
+
+      {/* Toast Inscription Réussie */}
+      {addSuccessCandidate && (
+        <div className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50/95 p-4 sm:p-5 text-emerald-900 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 animate-fadeIn">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+              <Check className="h-5 w-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-emerald-950">
+                Candidat inscrit avec succès !
+              </h4>
+              <p className="text-xs text-emerald-700 mt-0.5">
+                <strong>{addSuccessCandidate.firstName} {addSuccessCandidate.lastName}</strong> ({addSuccessCandidate.vocalRange.toUpperCase()}) — Dossier : <span className="font-mono font-bold text-emerald-900">{addSuccessCandidate.registrationNumber}</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 shrink-0 w-full sm:w-auto justify-end">
+            <a
+              href={getWhatsAppUrl(
+                addSuccessCandidate.phoneCountryCode,
+                addSuccessCandidate.phone,
+                `Bonjour ${addSuccessCandidate.firstName}, nous vous contactons de la part du jury concernant votre candidature (${addSuccessCandidate.registrationNumber}) au casting de voix pour le prochain projet du chantre Josias Folly et son équipe Les Adorateurs du Tabernacle.\n\nVotre candidature a été bien enregistrée. Nous vous invitons à cliquer sur le lien ci-dessous pour intégrer le forum dans lequel toutes les informations relatives au casting seront partagées.\n\nMerci et demeurez béni.e 🙏\n\nhttps://chat.whatsapp.com/CmC7pqVAuKKL7qLmbxWW33`
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 text-xs font-bold transition-all shadow-xs cursor-pointer"
+            >
+              <MessageCircle className="h-3.5 w-3.5 fill-current" />
+              <span>Envoyer invitation WhatsApp</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={() => setAddSuccessCandidate(null)}
+              className="p-1.5 text-emerald-700 hover:text-emerald-950 rounded-lg hover:bg-emerald-100 transition-colors cursor-pointer"
+              title="Fermer"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* KPI Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
@@ -341,7 +496,7 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                           href={getWhatsAppUrl(
                             candidate.phoneCountryCode,
                             candidate.phone,
-                            `Bonjour ${candidate.firstName}, nous vous contactons de la part du jury concernant votre candidature (${candidate.registrationNumber}) au casting de voix pour le prochain projet du chantre Josias Folly et son groupe musical Les Adorateurs du Tabernacle.`
+                            `Bonjour ${candidate.firstName}, nous vous contactons de la part du jury concernant votre candidature (${candidate.registrationNumber}) au casting de voix pour le prochain projet du chantre Josias Folly et son équipe Les Adorateurs du Tabernacle.\n\nVotre candidature a été bien enregistrée. Nous vous invitons à cliquer sur le lien ci-dessous pour intégrer le forum dans lequel toutes les informations relatives au casting seront partagées.\n\nMerci et demeurez béni.e 🙏\n\nhttps://chat.whatsapp.com/CmC7pqVAuKKL7qLmbxWW33`
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -579,6 +734,248 @@ export const AdminJuryDashboard: React.FC<AdminJuryDashboardProps> = ({
                 <span>Supprimer définitivement</span>
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Inscription Manuelle de Candidat */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn overflow-y-auto">
+          <div className="w-full max-w-xl rounded-2xl bg-white p-6 shadow-2xl border border-slate-200 my-8 text-left max-h-[90vh] flex flex-col">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 text-[#f44c00]">
+                  <UserPlus className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">
+                    Inscrire un candidat manuellement
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Ajoutez une candidature directement dans la base de données
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsAddModalOpen(false);
+                  setAddError(null);
+                }}
+                className="rounded-lg p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Modal Form */}
+            <form onSubmit={handleAddNewCandidate} className="space-y-4 pt-4 overflow-y-auto pr-1">
+              {addError && (
+                <div className="rounded-xl bg-rose-50 border border-rose-200 p-3 text-xs text-rose-700 font-medium">
+                  {addError}
+                </div>
+              )}
+
+              {/* Nom & Prénom */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Nom de famille <span className="text-rose-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newCandidateData.lastName}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, lastName: e.target.value }))}
+                    placeholder="ex. DOSSOU"
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Prénom(s) <span className="text-rose-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={newCandidateData.firstName}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, firstName: e.target.value }))}
+                    placeholder="ex. Jean-Eudes"
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Sexe & Âge */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Sexe
+                  </label>
+                  <select
+                    value={newCandidateData.gender}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, gender: e.target.value as 'femme' | 'homme' }))}
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none bg-white"
+                  >
+                    <option value="femme">Femme</option>
+                    <option value="homme">Homme</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Âge (ans)
+                  </label>
+                  <input
+                    type="number"
+                    min="15"
+                    max="70"
+                    value={newCandidateData.age}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, age: e.target.value }))}
+                    placeholder="ex. 25"
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Téléphone WhatsApp */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Indicatif
+                  </label>
+                  <select
+                    value={newCandidateData.phoneCountryCode}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, phoneCountryCode: e.target.value }))}
+                    className="w-full rounded-xl border border-slate-200 px-2 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none bg-white"
+                  >
+                    <option value="+229">🇧🇯 Bénin (+229)</option>
+                    <option value="+225">🇨🇮 Côte d'Ivoire (+225)</option>
+                    <option value="+228">🇹🇬 Togo (+228)</option>
+                    <option value="+226">🇧🇫 Burkina (+226)</option>
+                    <option value="+221">🇸🇳 Sénégal (+221)</option>
+                    <option value="+33">🇫🇷 France (+33)</option>
+                  </select>
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Téléphone WhatsApp <span className="text-rose-600">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={newCandidateData.phone}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, phone: e.target.value }))}
+                    placeholder="ex. 0197000000"
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Ville & Email */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Commune / Ville
+                  </label>
+                  <input
+                    type="text"
+                    value={newCandidateData.cityAddress}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, cityAddress: e.target.value }))}
+                    placeholder="ex. Cotonou / Abidjan"
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Email (optionnel)
+                  </label>
+                  <input
+                    type="email"
+                    value={newCandidateData.email}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, email: e.target.value }))}
+                    placeholder="candidat@example.com"
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Pupitre / Tessiture & Niveau */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Pupitre / Tessiture <span className="text-rose-600">*</span>
+                  </label>
+                  <select
+                    value={newCandidateData.vocalRange}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, vocalRange: e.target.value as VocalRange }))}
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none bg-white font-semibold"
+                  >
+                    <option value="soprano">Soprano</option>
+                    <option value="alto">Alto</option>
+                    <option value="tenor">Ténor</option>
+                    <option value="mezzo">Mezzo-soprano</option>
+                    <option value="baryton">Baryton</option>
+                    <option value="basse">Basse</option>
+                    <option value="voix_off_femme">Voix-off (Femme)</option>
+                    <option value="voix_off_homme">Voix-off (Homme)</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Niveau vocal
+                  </label>
+                  <select
+                    value={newCandidateData.experienceLevel}
+                    onChange={(e) => setNewCandidateData((p) => ({ ...p, experienceLevel: e.target.value as ExperienceLevel }))}
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none bg-white"
+                  >
+                    <option value="debutant">Débutant</option>
+                    <option value="intermediaire">Intermédiaire</option>
+                    <option value="confirme">Confirmé</option>
+                    <option value="professionnel">Professionnel</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Église d'attache */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Église d'attache / Communauté (optionnel)
+                </label>
+                <input
+                  type="text"
+                  value={newCandidateData.churchCommunity}
+                  onChange={(e) => setNewCandidateData((p) => ({ ...p, churchCommunity: e.target.value }))}
+                  placeholder="ex. Église des Rachetés"
+                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#f44c00] focus:ring-1 focus:ring-[#f44c00] outline-none"
+                />
+              </div>
+
+              {/* Modal Buttons */}
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAddModalOpen(false);
+                    setAddError(null);
+                  }}
+                  className="rounded-xl border border-slate-200 px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#f44c00] to-[#fb9540] hover:opacity-95 text-white px-5 py-2.5 text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                >
+                  <Check className="h-4 w-4" />
+                  <span>Enregistrer le candidat</span>
+                </button>
+              </div>
+
+            </form>
           </div>
         </div>
       )}
