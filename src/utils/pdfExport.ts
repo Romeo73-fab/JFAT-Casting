@@ -175,16 +175,16 @@ export const exportCandidatesToPDF = (
       valign: 'middle',
     },
     columnStyles: {
-      0: { cellWidth: 8, halign: 'center' },
+      0: { cellWidth: 14, halign: 'center', fontStyle: 'bold' }, // Case numérotation (N°) élargie à 14 mm
       1: { cellWidth: 22, fontStyle: 'bold' },
-      2: { cellWidth: 36, fontStyle: 'bold' },
+      2: { cellWidth: 35, fontStyle: 'bold' },
       3: { cellWidth: 15 },
       4: { cellWidth: 32, fontStyle: 'bold', textColor: [15, 23, 42] }, // Téléphone bien visible
-      5: { cellWidth: 26 },
+      5: { cellWidth: 25 },
       6: { cellWidth: 22, fontStyle: 'bold' },
-      7: { cellWidth: 32 },
+      7: { cellWidth: 30 },
       8: { cellWidth: 30 }, // Case niveau préservée et confortable
-      9: { cellWidth: 46, halign: 'center' }, // Case signature très élargie (46 mm x 14 mm)
+      9: { cellWidth: 44, halign: 'center' }, // Case signature très aérée
     },
     alternateRowStyles: {
       fillColor: [250, 250, 252],
